@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f91bdb9c9ce3e429e1d2433be7d735, type: 3}
+  m_Name: BoardConfig_Classic
+  m_EditorClassIdentifier: 
+  boardId: classic
+  rows: 8
+  cols: 8
+  cellSize: 1
+  lightCellColor: {r: 1, g: 1, b: 1, a: 1}
+  darkCellColor: {r: 0.35, g: 0.24, b: 0.1, a: 1}
+  cellSprites:
+  - typeIndex: 0
+    sprite: {fileID: 113057562, guid: 8442f68a2e40236408aec9e36da516b1, type: 3}
+  - typeIndex: 1
+    sprite: {fileID: -397855929, guid: 8442f68a2e40236408aec9e36da516b1, type: 3}
+  selectedColor: {r: 1, g: 0.9, b: 0, a: 0.5}
+  validMoveColor: {r: 0, g: 1, b: 0, a: 0.35}
+  captureColor: {r: 1, g: 0, b: 0, a: 0.35}
+  checkColor: {r: 1, g: 0.3, b: 0, a: 0.55}
+  showBorder: 1
+  borderColor: {r: 0, g: 0, b: 0, a: 1}
+  borderWidth: 0

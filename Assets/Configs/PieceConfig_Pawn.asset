@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: PieceConfig_Pawn
+  m_EditorClassIdentifier: Assembly-CSharp:ChessTemplate.Config:PieceConfig
+  pieceId: pawn
+  pieceName: Pawn
+  spriteTeam0: {fileID: -183696358, guid: d3d0f31f20b987d41900a1fc97f11085, type: 3}
+  spriteTeam1: {fileID: 215407530, guid: d3d0f31f20b987d41900a1fc97f11085, type: 3}
+  team1Tint: {r: 0.15, g: 0.15, b: 0.15, a: 1}
+  spriteOffset: {x: 0, y: -0.4}
+  spriteScale: 0.85
+  movePatterns:
+  - dRow: 1
+    dCol: 0
+    applyDirectionToCol: 0
+    slide: 0
+    canCapture: 0
+    canMoveEmpty: 1
+    firstMoveOnly: 0
+  - dRow: 2
+    dCol: 0
+    applyDirectionToCol: 0
+    slide: 0
+    canCapture: 0
+    canMoveEmpty: 1
+    firstMoveOnly: 1
+  - dRow: 1
+    dCol: -1
+    applyDirectionToCol: 0
+    slide: 0
+    canCapture: 1
+    canMoveEmpty: 0
+    firstMoveOnly: 0
+  - dRow: 1
+    dCol: 1
+    applyDirectionToCol: 0
+    slide: 0
+    canCapture: 1
+    canMoveEmpty: 0
+    firstMoveOnly: 0
+  canPromote: 1
+  isRoyal: 0
+  canCastleWith: 0
+  pointValue: 1
