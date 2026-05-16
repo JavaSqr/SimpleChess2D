@@ -9,13 +9,8 @@ using ChessTemplate.Save;
 
 namespace ChessTemplate.UI
 {
-    /// <summary>
-    /// Управляет всеми UI-панелями: главное меню, HUD, пауза, save/load, конец игры, промоция.
-    /// Прикрепи к Canvas в сцене, назначь все ссылки в Inspector.
-    /// </summary>
     public class UIManager : MonoBehaviour
     {
-        // ── Panels ─────────────────────────────────────────────────
         [Header("Panels")]
         public GameObject mainMenuPanel;
         public GameObject hudPanel;
@@ -23,71 +18,51 @@ namespace ChessTemplate.UI
         public GameObject saveLoadPanel;
         public GameObject gameOverPanel;
 
-        /// <summary>
-        /// Панель промоции пешки.
-        /// Должна содержать 4 кнопки с компонентом PromotionButton (или настроить вручную).
-        /// Создай в иерархии: Canvas → PromotionPanel → [Queen, Rook, Bishop, Knight] (Button + Image).
-        /// </summary>
         [Header("Promotion Panel")]
         public GameObject promotionPanel;
-
-        [Tooltip("Список кнопок выбора фигуры при промоции. " +
-                 "Порядок должен совпадать с promotionConfigs.")]
         public List<Button> promotionButtons;
-
-        [Tooltip("Конфиги фигур для промоции в том же порядке, что promotionButtons. " +
-                 "Обычно: Queen, Rook, Bishop, Knight.")]
+        [Tooltip("Must match promotionButtons order. Typically: Queen, Rook, Bishop, Knight.")]
         public List<PieceConfig> promotionConfigs;
-
-        [Tooltip("Image на каждой кнопке промоции — заполняется спрайтом фигуры нужной команды.")]
         public List<Image> promotionButtonImages;
 
-        // ── HUD ────────────────────────────────────────────────────
         [Header("HUD")]
         public TextMeshProUGUI elapsedTimeText;
         public TextMeshProUGUI currentTurnText;
         public List<TextMeshProUGUI> teamTimerTexts;
         public Button pauseButton;
 
-        // ── Pause Menu ─────────────────────────────────────────────
         [Header("Pause Menu")]
         public Button pauseResumeButton;
         public Button pauseSaveButton;
         public Button pauseMainMenuButton;
 
-        // ── Main Menu ──────────────────────────────────────────────
         [Header("Main Menu")]
         public Button newGameButton;
         public Button loadGameButton;
         public Button quitButton;
 
-        // ── Save / Load ────────────────────────────────────────────
         [Header("Save / Load")]
         public Transform slotListParent;
         public GameObject slotEntryPrefab;
         public Button closeSaveLoadButton;
 
-        // ── Game Over ──────────────────────────────────────────────
         [Header("Game Over")]
         public TextMeshProUGUI gameOverText;
         public Button gameOverNewGameButton;
         public Button gameOverMainMenuButton;
 
-        // ── References ─────────────────────────────────────────────
         [Header("References")]
         public TimerManager timerManager;
 
-        // ── Runtime ────────────────────────────────────────────────
         private bool _saveMode;
         private Action<PieceConfig> _onPromotionChosen;
-
-        // ── Lifecycle ──────────────────────────────────────────────
 
         private void Awake()
         {
             pauseResumeButton?.onClick.AddListener(() => GameManager.Instance.TogglePause());
             pauseSaveButton?.onClick.AddListener(() => ShowSaveLoad(saveMode: true));
             pauseMainMenuButton?.onClick.AddListener(() => GameManager.Instance.ReturnToMainMenu());
+            pauseButton?.onClick.AddListener(() => GameManager.Instance.TogglePause());
 
             newGameButton?.onClick.AddListener(() => GameManager.Instance.StartNewGame());
             loadGameButton?.onClick.AddListener(() => ShowSaveLoad(saveMode: false));
@@ -95,32 +70,35 @@ namespace ChessTemplate.UI
 
             closeSaveLoadButton?.onClick.AddListener(HideSaveLoad);
 
-            pauseButton?.onClick.AddListener(() => GameManager.Instance.TogglePause());
-
             gameOverNewGameButton?.onClick.AddListener(() => GameManager.Instance.StartNewGame());
             gameOverMainMenuButton?.onClick.AddListener(() => GameManager.Instance.ReturnToMainMenu());
 
             WirePromotionButtons();
 
             if (timerManager != null)
-            {
                 timerManager.OnTeamTimeUpdated.AddListener(OnTeamTimeUpdated);
-            }
 
             HideAll();
         }
 
-        // ── Panel visibility ───────────────────────────────────────
-
-        public void ShowMainMenu() {
+        public void ShowMainMenu()
+        {
             HideAll();
             mainMenuPanel?.SetActive(true);
             GetComponent<ShaderController>().SetShaderPreset(2);
             GetComponent<Animator>().SetTrigger("OpenMenu");
         }
-        public void ShowHUD() { HideAll(); hudPanel?.SetActive(true); pauseButton?.gameObject.SetActive(true);
-            teamTimerTexts[0].text = "5:00";
-            teamTimerTexts[1].text = "5:00"; // temporary solution
+
+        public void ShowHUD()
+        {
+            HideAll();
+            hudPanel?.SetActive(true);
+            pauseButton?.gameObject.SetActive(true);
+            if (teamTimerTexts?.Count >= 2)
+            {
+                teamTimerTexts[0].text = "5:00";
+                teamTimerTexts[1].text = "5:00";
+            }
         }
 
         public void ShowPauseMenu() => pauseMenuPanel?.SetActive(true);
@@ -130,8 +108,9 @@ namespace ChessTemplate.UI
         {
             gameOverPanel?.SetActive(true);
             pauseButton?.gameObject.SetActive(false);
-            if (gameOverText != null) {
-                gameOverText.text = $"{(losingTeam == 0 ? "Black" : "White")} won";
+            if (gameOverText != null)
+            {
+                gameOverText.text = losingTeam == 0 ? "Black won" : "White won";
                 gameOverText.color = losingTeam == 0 ? Color.black : Color.white;
             }
         }
@@ -139,56 +118,31 @@ namespace ChessTemplate.UI
         public void UpdateTurnDisplay(int teamIndex, string teamName = null)
         {
             if (currentTurnText != null)
-                currentTurnText.text = teamName != null
-                    ? $"{teamName}'s turn"
-                    : $"Team {teamIndex}'s turn";
+                currentTurnText.text = teamName != null ? $"{teamName}'s turn" : $"Team {teamIndex}'s turn";
         }
 
-        // ── Promotion panel ────────────────────────────────────────
-
-        /// <summary>
-        /// Показывает панель выбора фигуры для промоции пешки.
-        /// teamIndex нужен чтобы показать правильные спрайты (белые/чёрные варианты).
-        /// callback вызывается когда игрок кликает на кнопку.
-        /// </summary>
-        /// <summary>
-        /// Возвращает true если промоция полностью настроена в Inspector:
-        /// есть хотя бы один конфиг и либо есть панель, либо авто-промоция возможна.
-        /// </summary>
-        public bool PromotionPanelIsReady()
-        {
-            return promotionConfigs != null && promotionConfigs.Count > 0;
-        }
+        public bool PromotionPanelIsReady() => promotionConfigs != null && promotionConfigs.Count > 0;
 
         public void ShowPromotionPanel(int teamIndex, Action<PieceConfig> callback)
         {
-            // Если панель не назначена — авто-промоция в первый конфиг из списка
             if (promotionPanel == null)
             {
-                Debug.LogWarning("[UIManager] PromotionPanel не назначен. Авто-промоция в первый конфиг.");
+                Debug.LogWarning("[UIManager] PromotionPanel not assigned. Auto-promoting.");
                 if (promotionConfigs != null && promotionConfigs.Count > 0)
                     callback?.Invoke(promotionConfigs[0]);
                 else
-                    Debug.LogError("[UIManager] promotionConfigs пуст — промоция невозможна! " +
-                                   "Заполни UIManager.PromotionConfigs в Inspector.");
+                    Debug.LogError("[UIManager] promotionConfigs is empty.");
                 return;
             }
 
             _onPromotionChosen = callback;
 
-            // Обновить спрайты кнопок под нужную команду
             if (promotionButtonImages != null && promotionConfigs != null)
-            {
                 for (int i = 0; i < promotionButtonImages.Count && i < promotionConfigs.Count; i++)
-                {
                     if (promotionButtonImages[i] != null && promotionConfigs[i] != null)
                         promotionButtonImages[i].sprite = promotionConfigs[i].GetSprite(teamIndex);
-                }
-            }
 
             promotionPanel.SetActive(true);
-
-            // Пауза времени пока игрок выбирает
             timerManager?.Pause();
         }
 
@@ -197,8 +151,6 @@ namespace ChessTemplate.UI
             promotionPanel?.SetActive(false);
             timerManager?.Resume();
         }
-
-        // ── Save / Load ────────────────────────────────────────────
 
         public void ShowSaveLoad(bool saveMode)
         {
@@ -239,8 +191,7 @@ namespace ChessTemplate.UI
             var go = Instantiate(slotEntryPrefab, slotListParent);
             var tmp = go.GetComponentInChildren<TextMeshProUGUI>();
             if (tmp != null) tmp.text = label;
-            var btn = go.GetComponentInChildren<Button>();
-            btn?.onClick.AddListener(() => onClick());
+            go.GetComponentInChildren<Button>()?.onClick.AddListener(() => onClick());
         }
 
         private void OnSlotSelected(string slotName)
@@ -250,21 +201,11 @@ namespace ChessTemplate.UI
             HideSaveLoad();
         }
 
-        // ── Timer callbacks ────────────────────────────────────────
-
-        private void OnElapsedUpdated(float elapsed)
-        {
-            if (elapsedTimeText != null)
-                elapsedTimeText.text = TimerManager.FormatTime(elapsed);
-        }
-
         private void OnTeamTimeUpdated(int team, float remaining)
         {
             if (teamTimerTexts != null && team < teamTimerTexts.Count && teamTimerTexts[team] != null)
                 teamTimerTexts[team].text = TimerManager.FormatTime(remaining);
         }
-
-        // ── Keyboard ───────────────────────────────────────────────
 
         private void Update()
         {
@@ -272,25 +213,13 @@ namespace ChessTemplate.UI
                 GameManager.Instance.TogglePause();
         }
 
-        // ── Internal ───────────────────────────────────────────────
-
-        /// <summary>
-        /// Привязывает кнопки промоции к конфигам.
-        /// Индекс кнопки = индекс конфига в promotionConfigs.
-        /// </summary>
         private void WirePromotionButtons()
         {
             if (promotionButtons == null || promotionConfigs == null) return;
-
             for (int i = 0; i < promotionButtons.Count && i < promotionConfigs.Count; i++)
             {
                 int idx = i;
-                Button button = promotionButtons[i];
-                button?.onClick.AddListener(() =>
-                {
-                    var chosen = promotionConfigs[idx];
-                    _onPromotionChosen?.Invoke(chosen);
-                });
+                promotionButtons[i]?.onClick.AddListener(() => _onPromotionChosen?.Invoke(promotionConfigs[idx]));
             }
         }
 

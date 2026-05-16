@@ -4372,6 +4372,7 @@ GameObject:
   - component: {fileID: 1647734252}
   - component: {fileID: 1647734254}
   - component: {fileID: 1647734253}
+  - component: {fileID: 1647734257}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Untagged
@@ -4613,6 +4614,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1647734257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647734251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c5a3c446bca0a4fb0c9b2716976b25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boardTransform: {fileID: 232943202}
+  turnManager: {fileID: 1647734252}
+  autoFlipOnTurn: 1
+  flipButton: {fileID: 0}
+  flipDuration: 1
 --- !u!1 &1650650529
 GameObject:
   m_ObjectHideFlags: 0
@@ -5871,7 +5889,7 @@ MonoBehaviour:
   turns: {fileID: 1647734252}
   selection: {fileID: 1647734254}
   timer: {fileID: 1647734253}
-  boardFlipper: {fileID: 0}
+  boardFlipper: {fileID: 1647734257}
   audioManager: {fileID: 359830041}
   saveManager: {fileID: 1949706764}
   ui: {fileID: 1693822019}

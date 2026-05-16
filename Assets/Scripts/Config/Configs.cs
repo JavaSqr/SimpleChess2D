@@ -17,8 +17,6 @@ namespace ChessTemplate.Config
         [Header("Cell visuals")]
         public Color lightCellColor = Color.white;
         public Color darkCellColor = new Color(0.35f, 0.24f, 0.10f);
-
-        [Tooltip("Опционально: спрайты вместо цветов. typeIndex 0 = светлая, 1 = тёмная.")]
         public List<CellSpriteEntry> cellSprites = new();
 
         [Header("Highlight colors")]
@@ -44,40 +42,20 @@ namespace ChessTemplate.Config
     [System.Serializable]
     public class CellSpriteEntry
     {
-        public int typeIndex; // 0 - white, 1 - black
+        public int typeIndex; // 0 = light, 1 = dark
         public Sprite sprite;
     }
-
 
     [System.Serializable]
     public class MovePattern
     {
-        [Tooltip("Смещение по строкам за один шаг.")]
         public int dRow;
-
-        [Tooltip("Смещение по столбцам за один шаг.")]
         public int dCol;
-
-        [Tooltip(
-            "Применять множитель направления команды к dCol.\n\n" +
-            "FALSE (по умолчанию) — dCol абсолютный. Используй для:\n" +
-            "  • Ладья, слон, ферзь, конь, король — у них паттерны уже покрывают ОБА направления\n" +
-            "    (отдельные записи с +dCol и -dCol).\n\n" +
-            "TRUE — dCol зеркалится для команды 1. Используй для:\n" +
-            "  • Пешка: захват по диагонали (dRow=1, dCol=1) — для чёрных станет dRow=-1, dCol=-1.\n" +
-            "  • Любой паттерн где смысл 'вправо от игрока', а не абсолютное направление.")]
+        [Tooltip("If true, dCol is flipped for team 1 (use for pawn diagonal attacks).")]
         public bool applyDirectionToCol = false;
-
-        [Tooltip("Скользящий ход (повторяется до упора): ладья, слон, ферзь. False = один шаг.")]
         public bool slide = false;
-
-        [Tooltip("Может захватывать вражескую фигуру на целевой клетке.")]
         public bool canCapture = true;
-
-        [Tooltip("Может ходить на пустую клетку. False = только захват (диагональ пешки).")]
         public bool canMoveEmpty = true;
-
-        [Tooltip("Разрешён только если фигура ещё не ходила (двойной ход пешки).")]
         public bool firstMoveOnly = false;
     }
 
@@ -90,7 +68,7 @@ namespace ChessTemplate.Config
 
         [Header("Visuals")]
         public Sprite spriteTeam0;
-        [Tooltip("Спрайт для команды 1. Если пусто — берётся spriteTeam0 с тинтом team1Tint.")]
+        [Tooltip("If empty, spriteTeam0 is used with team1Tint applied.")]
         public Sprite spriteTeam1;
         public Color team1Tint = new Color(0.15f, 0.15f, 0.15f);
         public Vector2 spriteOffset = Vector2.zero;
@@ -100,9 +78,9 @@ namespace ChessTemplate.Config
         public List<MovePattern> movePatterns = new();
 
         [Header("Special flags")]
-        public bool canPromote;      // пешка — промоция
-        public bool isRoyal;         // король — определяет шах/мат
-        public bool canCastleWith;   // ладья — партнёр рокировки
+        public bool canPromote;    // pawn promotion
+        public bool isRoyal;       // losing this piece = check/mate
+        public bool canCastleWith; // rook castling partner
 
         [Header("Value")]
         public int pointValue = 1;
@@ -113,7 +91,6 @@ namespace ChessTemplate.Config
             return spriteTeam1;
         }
     }
-
 
     [System.Serializable]
     public class PiecePlacement

@@ -9,14 +9,6 @@ using ChessTemplate.UI;
 
 namespace ChessTemplate
 {
-    /// <summary>
-    /// Центральный синглтон, координирующий все подсистемы.
-    /// Прикрепи к GameObject "GameManager" в сцене.
-    ///
-    /// ИЗМЕНЕНИЕ: при переходе между состояниями (меню → игра → конец игры)
-    /// теперь вызываются методы AudioManager.PlayMenuMusic / PlayGameMusic / PlayGameOverMusic,
-    /// что обеспечивает плавный кроссфейд музыки.
-    /// </summary>
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
@@ -39,8 +31,6 @@ namespace ChessTemplate
         public GameState State { get; private set; } = new GameState();
         public GameSetupConfig ActiveSetup { get; private set; }
 
-        // ── Lifecycle ──────────────────────────────────────────────
-
         private void Awake()
         {
             if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -56,21 +46,13 @@ namespace ChessTemplate
             State.Phase = GamePhase.MainMenu;
             selection.SetActive(false);
             ui?.ShowMainMenu();
-
-            // Музыка главного меню при старте
             audioManager?.PlayMenuMusic();
         }
-
-        // ── Game flow ──────────────────────────────────────────────
 
         public void StartNewGame(GameSetupConfig setup = null)
         {
             ActiveSetup = setup != null ? setup : defaultSetupConfig;
-            if (ActiveSetup == null)
-            {
-                Debug.LogError("[GameManager] Не назначен GameSetupConfig!");
-                return;
-            }
+            if (ActiveSetup == null) { Debug.LogError("[GameManager] No GameSetupConfig assigned!"); return; }
 
             board.GenerateBoard(ActiveSetup.boardConfig);
             spawner.SpawnFromConfig(ActiveSetup);
@@ -90,7 +72,7 @@ namespace ChessTemplate
             selection.SetActive(true);
 
             audioManager?.OnGameStart();
-            audioManager?.PlayGameMusic();   // ← плавный переход к игровой музыке
+            audioManager?.PlayGameMusic();
             ui?.ShowHUD();
         }
 
@@ -113,11 +95,7 @@ namespace ChessTemplate
         }
 
         public bool SaveGame(string slotName)
-        {
-            return saveManager.Save(slotName, State,
-                ActiveSetup?.boardConfig?.boardId,
-                ActiveSetup?.setupId);
-        }
+            => saveManager.Save(slotName, State, ActiveSetup?.boardConfig?.boardId, ActiveSetup?.setupId);
 
         public bool LoadGame(string slotName)
         {
@@ -125,10 +103,7 @@ namespace ChessTemplate
             if (data == null) return false;
 
             var setupToUse = ActiveSetup ?? defaultSetupConfig;
-            if (setupToUse != null)
-                board.GenerateBoard(setupToUse.boardConfig);
-            else
-                board.GenerateBoard();
+            board.GenerateBoard(setupToUse != null ? setupToUse.boardConfig : null);
 
             var newState = saveManager.ApplySave(data);
             if (newState == null) return false;
@@ -141,9 +116,8 @@ namespace ChessTemplate
             timer.StartTimer();
 
             boardFlipper?.ResetOrientation();
-
             selection.SetActive(true);
-            audioManager?.PlayGameMusic();   // ← плавный переход к игровой музыке при загрузке
+            audioManager?.PlayGameMusic();
             ui?.ShowHUD();
             return true;
         }
@@ -157,7 +131,7 @@ namespace ChessTemplate
             boardFlipper?.ResetOrientation();
 
             State.Phase = GamePhase.MainMenu;
-            audioManager?.PlayMenuMusic();   // ← плавный переход к музыке меню
+            audioManager?.PlayMenuMusic();
             ui?.ShowMainMenu();
         }
 
@@ -170,8 +144,6 @@ namespace ChessTemplate
 #endif
         }
 
-        // ── Callbacks ──────────────────────────────────────────────
-
         private void OnTurnChanged(int team)
         {
             State.TurnTeam = team;
@@ -180,10 +152,7 @@ namespace ChessTemplate
                 ActiveSetup?.teams.Count > team ? ActiveSetup.teams[team].teamName : null);
         }
 
-        private void OnMoveMade(MoveRecord record)
-        {
-            State.History.Add(record);
-        }
+        private void OnMoveMade(MoveRecord record) => State.History.Add(record);
 
         public void OnCheckMate(int losingTeam)
         {
@@ -191,7 +160,7 @@ namespace ChessTemplate
             timer.Pause();
             selection.SetActive(false);
             audioManager?.OnGameOver();
-            audioManager?.PlayGameOverMusic(); // ← плавный переход к музыке конца игры
+            audioManager?.PlayGameOverMusic();
             ui?.ShowGameOver(losingTeam);
         }
     }

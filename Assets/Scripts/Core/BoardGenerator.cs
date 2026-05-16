@@ -31,29 +31,17 @@ namespace ChessTemplate.Core
 
         public static event System.Action<Cell> OnCellClicked;
 
-
         private void Awake()
         {
             if (!generateOnAwake) return;
-
-            if (boardConfig == null)
-            {
-                Debug.LogError("[BoardGenerator] generateOnAwake=true, но BoardConfig не назначен!", this);
-                return;
-            }
+            if (boardConfig == null) { Debug.LogError("[BoardGenerator] BoardConfig missing.", this); return; }
             GenerateBoard();
         }
 
         public void GenerateBoard(BoardConfig newConfig = null)
         {
             if (newConfig != null) boardConfig = newConfig;
-
-            if (boardConfig == null)
-            {
-                Debug.LogError("[BoardGenerator] BoardConfig не назначен!", this);
-                return;
-            }
-
+            if (boardConfig == null) { Debug.LogError("[BoardGenerator] BoardConfig missing.", this); return; }
             ClearBoard();
             BuildGrid();
         }
@@ -66,9 +54,6 @@ namespace ChessTemplate.Core
                     if (cell != null) Destroy(cell.gameObject);
                 _grid = null;
             }
-
-            /*var border = transform.Find("__Border");
-            if (border != null) Destroy(border.gameObject);*/
         }
 
         public Cell GetCell(int row, int col)
@@ -81,14 +66,18 @@ namespace ChessTemplate.Core
         {
             float cs = boardConfig.cellSize;
             float half = cs * 0.5f;
-            float x = col * cs + half + _originOffset.x;
-            float y = row * cs + half + _originOffset.y;
-            return transform.position + new Vector3(x, y, 0f);
+            var local = new Vector3(
+                col * cs + half + _originOffset.x,
+                row * cs + half + _originOffset.y,
+                0f);
+            return transform.position + transform.rotation * local;
         }
 
         public (int row, int col) WorldToCell(Vector3 worldPos)
         {
-            Vector3 local = worldPos - transform.position - _originOffset;
+            // Undo board rotation before computing grid coordinates
+            Vector3 unrotated = Quaternion.Inverse(transform.rotation) * (worldPos - transform.position);
+            Vector3 local = unrotated - _originOffset;
             int col = Mathf.FloorToInt(local.x / boardConfig.cellSize);
             int row = Mathf.FloorToInt(local.y / boardConfig.cellSize);
             if (row < 0 || row >= _rows || col < 0 || col >= _cols) return (-1, -1);
@@ -108,7 +97,6 @@ namespace ChessTemplate.Core
                 cell?.ClearHighlight();
         }
 
-
         private void BuildGrid()
         {
             _rows = boardConfig.rows;
@@ -116,26 +104,19 @@ namespace ChessTemplate.Core
             _grid = new Cell[_rows, _cols];
 
             float cs = boardConfig.cellSize;
-            _originOffset = new Vector3(
-                -_cols * cs * 0.5f,
-                -_rows * cs * 0.5f,
-                0f
-            );
+            _originOffset = new Vector3(-_cols * cs * 0.5f, -_rows * cs * 0.5f, 0f);
 
             for (int r = 0; r < _rows; r++)
             {
                 for (int c = 0; c < _cols; c++)
                 {
                     bool isLight = (r + c) % 2 == 0;
-                    Vector3 pos = CellToWorld(r, c);
-
-                    var go = Instantiate(cellPrefab, pos, Quaternion.identity, transform);
+                    var go = Instantiate(cellPrefab, CellToWorld(r, c), Quaternion.identity, transform);
                     go.name = $"Cell_{r}_{c}";
 
                     var cell = go.GetComponent<Cell>() ?? go.AddComponent<Cell>();
                     cell.Init(r, c, isLight, boardConfig, boardSortingLayer, boardSortingOrder);
                     cell.OnClick += HandleCellClick;
-
                     _grid[r, c] = cell;
                 }
             }
@@ -154,7 +135,6 @@ namespace ChessTemplate.Core
             var borderGo = new GameObject("__Border");
             borderGo.transform.SetParent(transform, false);
 
-            // Down, up, left, right
             CreateBorderSegment(borderGo.transform, new Vector3(ox + w * 0.5f, oy - bw * 0.5f, 0), new Vector2(w + bw * 2, bw));
             CreateBorderSegment(borderGo.transform, new Vector3(ox + w * 0.5f, oy + h + bw * 0.5f, 0), new Vector2(w + bw * 2, bw));
             CreateBorderSegment(borderGo.transform, new Vector3(ox - bw * 0.5f, oy + h * 0.5f, 0), new Vector2(bw, h));

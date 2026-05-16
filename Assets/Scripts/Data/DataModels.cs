@@ -4,22 +4,16 @@ using UnityEngine;
 
 namespace ChessTemplate.Data
 {
-    // ─────────────────────────────────────────────
-    //  Piece data stored in JSON save file
-    // ─────────────────────────────────────────────
     [Serializable]
     public class PieceData
     {
-        public string pieceConfigId;   // matches PieceConfig.pieceId
+        public string pieceConfigId;
         public int row;
         public int col;
-        public int teamIndex;          // 0 = white, 1 = black (or custom)
+        public int teamIndex;
         public bool hasMoved;
     }
 
-    // ─────────────────────────────────────────────
-    //  Board state snapshot
-    // ─────────────────────────────────────────────
     [Serializable]
     public class BoardData
     {
@@ -28,21 +22,14 @@ namespace ChessTemplate.Data
         public List<PieceData> pieces = new();
     }
 
-    // ─────────────────────────────────────────────
-    //  Тип хода — нужен для корректного исполнения
-    //  спецходов в SelectionHandler
-    // ─────────────────────────────────────────────
     public enum MoveType
     {
         Normal,
-        Castling,    // король + ладья двигаются вместе
-        EnPassant,   // пешка бьёт на проходе; захваченная пешка не на toRow/toCol
-        Promotion    // пешка достигла последнего ряда
+        Castling,   // king + rook both move
+        EnPassant,  // captured pawn is NOT at toRow/toCol
+        Promotion
     }
 
-    // ─────────────────────────────────────────────
-    //  Single move record (for history / undo)
-    // ─────────────────────────────────────────────
     [Serializable]
     public class MoveRecord
     {
@@ -52,27 +39,22 @@ namespace ChessTemplate.Data
         public int toRow, toCol;
         public MoveType moveType;
         public bool capturedPiece;
-        public PieceData capturedPieceData;  // null если захвата не было
+        public PieceData capturedPieceData;
 
-        // Рокировка: позиция ладьи до и после
         public int rookFromCol;
         public int rookToCol;
 
-        // Эн пасант: строка/столбец захваченной пешки (отличается от toRow/toCol)
         public int enPassantCaptureRow;
         public int enPassantCaptureCol;
 
         public float timestamp;
     }
 
-    // ─────────────────────────────────────────────
-    //  Full game save file
-    // ─────────────────────────────────────────────
     [Serializable]
     public class SaveData
     {
         public string saveId;
-        public string savedAt;             // ISO-8601
+        public string savedAt;
         public string boardConfigId;
         public string gameSetupConfigId;
         public int currentTeamTurn;
@@ -82,9 +64,6 @@ namespace ChessTemplate.Data
         public List<MoveRecord> moveHistory = new();
     }
 
-    // ─────────────────────────────────────────────
-    //  Runtime game state (not serialized directly)
-    // ─────────────────────────────────────────────
     public enum GamePhase { MainMenu, Setup, Playing, Paused, GameOver }
 
     public class GameState

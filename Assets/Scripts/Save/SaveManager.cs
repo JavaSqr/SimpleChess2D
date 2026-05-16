@@ -13,10 +13,11 @@ namespace ChessTemplate.Save
         private static SaveManager _instance;
         public static SaveManager Instance => _instance;
 
-        [Header("References — set in Inspector")]
+        [Header("References")]
         public BoardGenerator board;
         public PieceSpawner spawner;
-        public List<PieceConfig> allPieceConfigs; // drag all PieceConfig SOs here
+        [Tooltip("Drag all PieceConfig assets here. Required for loading saves.")]
+        public List<PieceConfig> allPieceConfigs;
 
         private string SaveDir => Path.Combine(Application.persistentDataPath, "saves");
 
@@ -28,7 +29,6 @@ namespace ChessTemplate.Save
             Directory.CreateDirectory(SaveDir);
         }
 
-        /// <summary>Save current game to a named slot.</summary>
         public bool Save(string slotName, GameState state, string boardConfigId, string gameSetupId)
         {
             try
@@ -49,10 +49,7 @@ namespace ChessTemplate.Save
                 save.board.pieces = spawner.GetAllPieceData();
                 save.moveHistory = new List<MoveRecord>(state.History);
 
-                string json = JsonUtility.ToJson(save, prettyPrint: true);
-                File.WriteAllText(SlotPath(slotName), json);
-
-                Debug.Log($"[SaveManager] Saved to slot '{slotName}' → {SlotPath(slotName)}");
+                File.WriteAllText(SlotPath(slotName), JsonUtility.ToJson(save, prettyPrint: true));
                 return true;
             }
             catch (Exception e)
@@ -62,29 +59,15 @@ namespace ChessTemplate.Save
             }
         }
 
-        /// <summary>Load save data from slot (does NOT apply it — returns the data).</summary>
         public SaveData Load(string slotName)
         {
             string path = SlotPath(slotName);
-            if (!File.Exists(path))
-            {
-                Debug.LogWarning($"[SaveManager] Slot not found: {slotName}");
-                return null;
-            }
+            if (!File.Exists(path)) { Debug.LogWarning($"[SaveManager] Slot not found: {slotName}"); return null; }
 
-            try
-            {
-                string json = File.ReadAllText(path);
-                return JsonUtility.FromJson<SaveData>(json);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"[SaveManager] Load failed: {e.Message}");
-                return null;
-            }
+            try { return JsonUtility.FromJson<SaveData>(File.ReadAllText(path)); }
+            catch (Exception e) { Debug.LogError($"[SaveManager] Load failed: {e.Message}"); return null; }
         }
 
-        /// <summary>Apply loaded save data to spawner and return restored GameState.</summary>
         public GameState ApplySave(SaveData save)
         {
             if (save == null) return null;
@@ -101,7 +84,6 @@ namespace ChessTemplate.Save
             return state;
         }
 
-        /// <summary>Returns all existing save slot names.</summary>
         public List<string> GetAllSlots()
         {
             var slots = new List<string>();
@@ -111,19 +93,8 @@ namespace ChessTemplate.Save
         }
 
         public bool SlotExists(string slotName) => File.Exists(SlotPath(slotName));
-
-        public void DeleteSlot(string slotName)
-        {
-            string path = SlotPath(slotName);
-            if (File.Exists(path)) File.Delete(path);
-        }
-
-        /// <summary>Read save metadata without loading full board (for save menu list).</summary>
-        public SaveData PeekSave(string slotName)
-        {
-            // Same as Load — returns full data; UI can display save.savedAt etc.
-            return Load(slotName);
-        }
+        public void DeleteSlot(string slotName) { var p = SlotPath(slotName); if (File.Exists(p)) File.Delete(p); }
+        public SaveData PeekSave(string slotName) => Load(slotName);
 
         private string SlotPath(string slotName) =>
             Path.Combine(SaveDir, slotName.Replace(" ", "_") + ".json");

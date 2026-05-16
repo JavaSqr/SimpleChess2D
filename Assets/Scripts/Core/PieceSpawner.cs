@@ -31,14 +31,8 @@ namespace ChessTemplate.Core
             foreach (var d in dataList)
             {
                 var cfg = allConfigs.Find(c => c.pieceId == d.pieceConfigId);
-                if (cfg == null)
-                {
-                    Debug.LogWarning($"[PieceSpawner] PieceConfig не найден: '{d.pieceConfigId}'. " +
-                                     "Проверь SaveManager.allPieceConfigs.");
-                    continue;
-                }
-                var piece = SpawnPiece(cfg, d.teamIndex, d.row, d.col);
-                piece.RestoreFromData(d, board);
+                if (cfg == null) { Debug.LogWarning($"[PieceSpawner] Config not found: '{d.pieceConfigId}'"); continue; }
+                SpawnPiece(cfg, d.teamIndex, d.row, d.col).RestoreFromData(d, board);
             }
         }
 
@@ -59,21 +53,16 @@ namespace ChessTemplate.Core
         {
             if (!_pieces.TryGetValue((row, col), out var oldPiece))
             {
-                Debug.LogWarning($"[PieceSpawner] PromotePiece: нет фигуры на ({row},{col})");
+                Debug.LogWarning($"[PieceSpawner] PromotePiece: no piece at ({row},{col})");
                 return null;
             }
 
             int teamIndex = oldPiece.TeamIndex;
-
-            // Delete old piece
             _pieces.Remove((row, col));
             Destroy(oldPiece.gameObject);
 
-            // Spawn new piece
             var promoted = SpawnPiece(newConfig, teamIndex, row, col);
             promoted.MarkAsMoved();
-
-            Debug.Log($"[PieceSpawner] Промоция: ({row},{col}) → {newConfig.pieceId} (team {teamIndex})");
             return promoted;
         }
 
@@ -108,11 +97,12 @@ namespace ChessTemplate.Core
 
         private Piece SpawnPiece(PieceConfig cfg, int teamIndex, int row, int col)
         {
-            var go = Instantiate(piecePrefab, board.CellToWorld(row, col), Quaternion.identity, transform);
+            var go = Instantiate(piecePrefab, board.CellToWorld(row, col), Quaternion.identity);
             go.name = $"{cfg.pieceId}_t{teamIndex}_{row}_{col}";
+            go.transform.SetParent(transform, true);
 
             var piece = go.GetComponent<Piece>() ?? go.AddComponent<Piece>();
-            piece.Init(cfg, teamIndex, row, col, piecesSortingLayer, piecesSortingOrder);
+            piece.Init(cfg, teamIndex, row, col, board, piecesSortingLayer, piecesSortingOrder);
             _pieces[(row, col)] = piece;
             return piece;
         }

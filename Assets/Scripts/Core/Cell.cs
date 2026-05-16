@@ -12,13 +12,11 @@ namespace ChessTemplate.Core
 
         private SpriteRenderer _baseSr;
         private SpriteRenderer _highlightSr;
-        private Color _baseColor;
         private bool _highlighted;
 
         public event System.Action<Cell> OnClick;
 
-        public void Init(int row, int col, bool isLight, BoardConfig cfg,
-                         string sortingLayer, int sortingOrder)
+        public void Init(int row, int col, bool isLight, BoardConfig cfg, string sortingLayer, int sortingOrder)
         {
             Row = row;
             Col = col;
@@ -39,7 +37,6 @@ namespace ChessTemplate.Core
                 _baseSr.sprite = BoardGenerator.CreatePixelSprite();
                 _baseSr.color = isLight ? cfg.lightCellColor : cfg.darkCellColor;
             }
-            _baseColor = _baseSr.color;
 
             transform.localScale = Vector3.one * cfg.cellSize;
 
@@ -70,7 +67,6 @@ namespace ChessTemplate.Core
             _highlightSr.color = new Color(0, 0, 0, 0);
         }
 
-        /// Temporarily flash the cell (for moves or smth else)
         public void Flash(Color color, float duration = 0.3f)
         {
             StartCoroutine(FlashRoutine(color, duration));
@@ -83,9 +79,6 @@ namespace ChessTemplate.Core
             if (!_highlighted) _highlightSr.color = new Color(0, 0, 0, 0);
         }
 
-        private void OnMouseDown()
-        {
-            OnClick?.Invoke(this);
-        }
+        private void OnMouseDown() => OnClick?.Invoke(this);
     }
 }

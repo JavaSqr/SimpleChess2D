@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AnimatorSupport : MonoBehaviour
@@ -10,17 +7,9 @@ public class AnimatorSupport : MonoBehaviour
 
     private void Start()
     {
-        if (audioSource == null)
-        {
-            if (TryGetComponent<AudioSource>(out AudioSource au))
-            {
-                audioSource = au;
-            }
-            else
-            {
-                audioSource = gameObject.AddComponent<AudioSource>();
-            }
-        }
+        if (audioSource != null) return;
+        if (!TryGetComponent(out audioSource))
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void PlayOneShotSound(AudioClip clip)
