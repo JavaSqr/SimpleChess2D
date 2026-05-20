@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using ChessTemplate.Config;
+using SimpleChess.Config;
 
-namespace ChessTemplate.Core
+namespace SimpleChess.Core
 {
     public class BoardGenerator : MonoBehaviour
     {

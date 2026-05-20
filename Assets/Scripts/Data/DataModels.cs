@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ChessTemplate.Data
+namespace SimpleChess.Data
 {
     [Serializable]
     public class PieceData

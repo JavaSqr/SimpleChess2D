@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using ChessTemplate.Config;
-using ChessTemplate.Logic;
-using ChessTemplate.Save;
+using SimpleChess.Config;
+using SimpleChess.Logic;
+using SimpleChess.Save;
 
-namespace ChessTemplate.UI
+namespace SimpleChess.UI
 {
     public class UIManager : MonoBehaviour
     {

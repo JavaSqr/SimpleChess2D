@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace ChessTemplate.Logic
+namespace SimpleChess.Logic
 {
     public class TimerManager : MonoBehaviour
     {

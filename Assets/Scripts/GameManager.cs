@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-using ChessTemplate.Audio;
-using ChessTemplate.Config;
-using ChessTemplate.Core;
-using ChessTemplate.Data;
-using ChessTemplate.Logic;
-using ChessTemplate.Save;
-using ChessTemplate.UI;
+using SimpleChess.Audio;
+using SimpleChess.Config;
+using SimpleChess.Core;
+using SimpleChess.Data;
+using SimpleChess.Logic;
+using SimpleChess.Save;
+using SimpleChess.UI;
 
-namespace ChessTemplate
+namespace SimpleChess
 {
     public class GameManager : MonoBehaviour
     {

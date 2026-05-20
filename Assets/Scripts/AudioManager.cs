@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ChessTemplate.Data;
+using SimpleChess.Data;
 
-namespace ChessTemplate.Audio
+namespace SimpleChess.Audio
 {
     public enum SoundPriority
     {

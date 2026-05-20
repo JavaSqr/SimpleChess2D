@@ -11,14 +11,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
   m_Name: PieceConfig_Bishop
-  m_EditorClassIdentifier: Assembly-CSharp:ChessTemplate.Config:PieceConfig
+  m_EditorClassIdentifier: Assembly-CSharp:SimpleChess.Config:PieceConfig
   pieceId: bishop
   pieceName: Bishop
   spriteTeam0: {fileID: -1292338467, guid: d3d0f31f20b987d41900a1fc97f11085, type: 3}
   spriteTeam1: {fileID: -1706770081, guid: d3d0f31f20b987d41900a1fc97f11085, type: 3}
   team1Tint: {r: 0.15, g: 0.15, b: 0.15, a: 1}
-  spriteOffset: {x: 0, y: -0.4}
-  spriteScale: 0.7
+  spriteOffset: {x: 0, y: -0.35}
+  spriteScale: 0.85
   movePatterns:
   - dRow: 1
     dCol: 1
@@ -27,15 +27,15 @@ MonoBehaviour:
     canCapture: 1
     canMoveEmpty: 1
     firstMoveOnly: 0
-  - dRow: 1
-    dCol: -1
+  - dRow: -1
+    dCol: 1
     applyDirectionToCol: 0
     slide: 1
     canCapture: 1
     canMoveEmpty: 1
     firstMoveOnly: 0
-  - dRow: -1
-    dCol: 1
+  - dRow: 1
+    dCol: -1
     applyDirectionToCol: 0
     slide: 1
     canCapture: 1
@@ -51,4 +51,4 @@ MonoBehaviour:
   canPromote: 0
   isRoyal: 0
   canCastleWith: 0
-  pointValue: 3
+  pointValue: 1

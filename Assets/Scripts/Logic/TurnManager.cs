@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using ChessTemplate.Config;
-using ChessTemplate.Data;
+using SimpleChess.Config;
+using SimpleChess.Data;
 
-namespace ChessTemplate.Logic
+namespace SimpleChess.Logic
 {
     public class TurnManager : MonoBehaviour
     {

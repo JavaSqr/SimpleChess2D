@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using ChessTemplate.Config;
-using ChessTemplate.Core;
-using ChessTemplate.Data;
+using SimpleChess.Config;
+using SimpleChess.Core;
+using SimpleChess.Data;
 
-namespace ChessTemplate.Logic
+namespace SimpleChess.Logic
 {
     public class MoveValidator : MonoBehaviour
     {

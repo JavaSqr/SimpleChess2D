@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using ChessTemplate.Config;
-using ChessTemplate.Core;
-using ChessTemplate.Data;
+using SimpleChess.Config;
+using SimpleChess.Core;
+using SimpleChess.Data;
 
-namespace ChessTemplate.Save
+namespace SimpleChess.Save
 {
     public class SaveManager : MonoBehaviour
     {

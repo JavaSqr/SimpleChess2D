@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using ChessTemplate.Config;
-using ChessTemplate.Data;
+using SimpleChess.Config;
+using SimpleChess.Data;
 
-namespace ChessTemplate.Core
+namespace SimpleChess.Core
 {
     public class PieceSpawner : MonoBehaviour
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ChessTemplate.Config
+namespace SimpleChess.Config
 {
-    [CreateAssetMenu(menuName = "ChessTemplate/BoardConfig", fileName = "BoardConfig")]
+    [CreateAssetMenu(menuName = "SimpleChess/BoardConfig", fileName = "BoardConfig")]
     public class BoardConfig : ScriptableObject
     {
         [Header("Identity")]
@@ -59,7 +59,7 @@ namespace ChessTemplate.Config
         public bool firstMoveOnly = false;
     }
 
-    [CreateAssetMenu(menuName = "ChessTemplate/PieceConfig", fileName = "PieceConfig")]
+    [CreateAssetMenu(menuName = "SimpleChess/PieceConfig", fileName = "PieceConfig")]
     public class PieceConfig : ScriptableObject
     {
         [Header("Identity")]
@@ -109,7 +109,7 @@ namespace ChessTemplate.Config
         public int teamIndex = 0;
     }
 
-    [CreateAssetMenu(menuName = "ChessTemplate/GameSetupConfig", fileName = "GameSetupConfig")]
+    [CreateAssetMenu(menuName = "SimpleChess/GameSetupConfig", fileName = "GameSetupConfig")]
     public class GameSetupConfig : ScriptableObject
     {
         [Header("Identity")]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using ChessTemplate.Config;
+using SimpleChess.Config;
 
-namespace ChessTemplate.Core
+namespace SimpleChess.Core
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class Cell : MonoBehaviour

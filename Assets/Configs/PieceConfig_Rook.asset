@@ -11,14 +11,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
   m_Name: PieceConfig_Rook
-  m_EditorClassIdentifier: Assembly-CSharp:ChessTemplate.Config:PieceConfig
+  m_EditorClassIdentifier: Assembly-CSharp:SimpleChess.Config:PieceConfig
   pieceId: rook
   pieceName: Rook
   spriteTeam0: {fileID: -747472111, guid: d3d0f31f20b987d41900a1fc97f11085, type: 3}
   spriteTeam1: {fileID: -1623081396, guid: d3d0f31f20b987d41900a1fc97f11085, type: 3}
   team1Tint: {r: 0.15, g: 0.15, b: 0.15, a: 1}
-  spriteOffset: {x: 0, y: -0.4}
-  spriteScale: 0.8
+  spriteOffset: {x: 0, y: -0.35}
+  spriteScale: 0.85
   movePatterns:
   - dRow: 1
     dCol: 0
@@ -51,4 +51,4 @@ MonoBehaviour:
   canPromote: 0
   isRoyal: 0
   canCastleWith: 1
-  pointValue: 5
+  pointValue: 1

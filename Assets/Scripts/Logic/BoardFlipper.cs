@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using ChessTemplate.Logic;
+using SimpleChess.Logic;
 
-namespace ChessTemplate
+namespace SimpleChess
 {
     public class BoardFlipper : MonoBehaviour
     {

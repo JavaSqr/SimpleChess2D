@@ -4393,7 +4393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   validator: {fileID: 1647734255}
-  setupConfig: {fileID: 11400000, guid: 193909249b9e9344e9bf80d9d03062ed, type: 2}
+  setupConfig: {fileID: 11400000, guid: 7327a7fa79d6c9847b913443c0f88dee, type: 2}
   OnTurnChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4630,7 +4630,7 @@ MonoBehaviour:
   turnManager: {fileID: 1647734252}
   autoFlipOnTurn: 1
   flipButton: {fileID: 0}
-  flipDuration: 1
+  flipDuration: 0.5
 --- !u!1 &1650650529
 GameObject:
   m_ObjectHideFlags: 0
@@ -5882,7 +5882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6acaa16b8fdf0a4883f8ba328d4deae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultSetupConfig: {fileID: 11400000, guid: 193909249b9e9344e9bf80d9d03062ed, type: 2}
+  defaultSetupConfig: {fileID: 11400000, guid: 7327a7fa79d6c9847b913443c0f88dee, type: 2}
   board: {fileID: 232943201}
   spawner: {fileID: 2000915871}
   validator: {fileID: 1647734255}

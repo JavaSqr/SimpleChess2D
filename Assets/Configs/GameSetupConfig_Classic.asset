@@ -11,16 +11,16 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
   m_Name: GameSetupConfig_Classic
-  m_EditorClassIdentifier: Assembly-CSharp:ChessTemplate.Config:GameSetupConfig
+  m_EditorClassIdentifier: Assembly-CSharp:SimpleChess.Config:GameSetupConfig
   setupId: classic
   setupName: Classic Chess
   boardConfig: {fileID: 11400000, guid: a1cacc7c4f3b40342a6f6115007e36c6, type: 2}
   teams:
-  - teamName: White
+  - teamName: white
     teamColor: {r: 1, g: 1, b: 1, a: 0}
     teamIndex: 0
-  - teamName: Black
-    teamColor: {r: 0.2830189, g: 0, b: 0, a: 0}
+  - teamName: black
+    teamColor: {r: 0, g: 0, b: 0, a: 0}
     teamIndex: 1
   placements:
   - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
@@ -55,14 +55,38 @@ MonoBehaviour:
     row: 1
     col: 7
     teamIndex: 0
-  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
-    row: 0
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
     col: 0
-    teamIndex: 0
-  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
-    row: 0
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
+    col: 1
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
+    col: 2
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
+    col: 3
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
+    col: 4
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
+    col: 5
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
+    col: 6
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
+    row: 6
     col: 7
-    teamIndex: 0
+    teamIndex: 1
   - piece: {fileID: 11400000, guid: 5cd387dc973d85e4d82c9360cb964e92, type: 2}
     row: 0
     col: 2
@@ -71,85 +95,61 @@ MonoBehaviour:
     row: 0
     col: 5
     teamIndex: 0
-  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
-    row: 0
-    col: 1
-    teamIndex: 0
-  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
-    row: 0
-    col: 6
-    teamIndex: 0
-  - piece: {fileID: 11400000, guid: e5343e0f8be4cd84c8067069261dbcd9, type: 2}
-    row: 0
-    col: 3
-    teamIndex: 0
+  - piece: {fileID: 11400000, guid: 5cd387dc973d85e4d82c9360cb964e92, type: 2}
+    row: 7
+    col: 2
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 5cd387dc973d85e4d82c9360cb964e92, type: 2}
+    row: 7
+    col: 5
+    teamIndex: 1
   - piece: {fileID: 11400000, guid: 7e3eea41ba7a3d445bb81173f32e1271, type: 2}
     row: 0
     col: 4
     teamIndex: 0
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 0
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 1
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 2
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 3
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 4
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 5
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 6
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 9a13de54590a8434e956e0c54a88311b, type: 2}
-    row: 6
-    col: 7
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
-    row: 7
-    col: 0
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
-    row: 7
-    col: 7
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 5cd387dc973d85e4d82c9360cb964e92, type: 2}
-    row: 7
-    col: 2
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 5cd387dc973d85e4d82c9360cb964e92, type: 2}
-    row: 7
-    col: 5
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
-    row: 7
-    col: 1
-    teamIndex: 1
-  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
-    row: 7
-    col: 6
-    teamIndex: 1
   - piece: {fileID: 11400000, guid: 7e3eea41ba7a3d445bb81173f32e1271, type: 2}
     row: 7
     col: 4
     teamIndex: 1
+  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
+    row: 0
+    col: 1
+    teamIndex: 0
+  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
+    row: 0
+    col: 6
+    teamIndex: 0
+  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
+    row: 7
+    col: 1
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 600bb6c635e4c4c458481db24876b387, type: 2}
+    row: 7
+    col: 6
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: e5343e0f8be4cd84c8067069261dbcd9, type: 2}
+    row: 0
+    col: 3
+    teamIndex: 0
   - piece: {fileID: 11400000, guid: e5343e0f8be4cd84c8067069261dbcd9, type: 2}
     row: 7
     col: 3
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
+    row: 0
+    col: 0
+    teamIndex: 0
+  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
+    row: 0
+    col: 7
+    teamIndex: 0
+  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
+    row: 7
+    col: 0
+    teamIndex: 1
+  - piece: {fileID: 11400000, guid: 26001dff81f740244bae7f29288af477, type: 2}
+    row: 7
+    col: 7
     teamIndex: 1
   enableCastling: 1
   enableEnPassant: 1
