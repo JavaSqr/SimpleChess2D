@@ -15,12 +15,14 @@ namespace SimpleChess
         public Button flipButton;
         [Min(0f)] public float flipDuration = 0.3f;
 
+        [Tooltip("X = time 0..1, Y = progress 0..1 where 0 = start angle, 1 = +180 degrees.")]
+        public AnimationCurve flipCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+
         private int _currentOrientation = 0;
         private bool _isAnimating;
-        private float _animProgress;
+        private float _animTime;
         private float _fromAngle, _toAngle;
 
-        // Current board angle, pieces read this to counter-rotate
         public float CurrentBoardAngle { get; private set; } = 0f;
 
         private void Awake() => flipButton?.onClick.AddListener(FlipManual);
@@ -58,7 +60,7 @@ namespace SimpleChess
         {
             _fromAngle = CurrentBoardAngle;
             _toAngle = _fromAngle + 180f;
-            _animProgress = 0f;
+            _animTime = 0f;
 
             if (flipDuration <= 0f)
             {
@@ -75,15 +77,17 @@ namespace SimpleChess
         {
             if (!_isAnimating) return;
 
-            _animProgress += Time.deltaTime / flipDuration;
-            if (_animProgress >= 1f)
+            _animTime += Time.deltaTime / flipDuration;
+            float t = Mathf.Clamp01(_animTime);
+
+            if (t >= 1f)
             {
-                _animProgress = 1f;
                 _isAnimating = false;
                 _currentOrientation = 1 - _currentOrientation;
             }
 
-            ApplyAngle(Mathf.LerpAngle(_fromAngle, _toAngle, EaseInOut(_animProgress)));
+            float progress = flipCurve.Evaluate(t);
+            ApplyAngle(_fromAngle + (_toAngle - _fromAngle) * progress);
         }
 
         private void ApplyAngle(float zAngle)
@@ -93,7 +97,5 @@ namespace SimpleChess
             if (boardTransform != null)
                 boardTransform.rotation = Quaternion.Euler(0f, 0f, zAngle);
         }
-
-        private static float EaseInOut(float t) => t * t * (3f - 2f * t);
     }
 }

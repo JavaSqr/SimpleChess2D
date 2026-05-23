@@ -45,16 +45,16 @@ Material:
     - _EnableExternalAlpha: 0
     - _IsRotate: 0
     - _Lighting: 0.4
-    - _PixelFilter: 500
+    - _PixelFilter: 300
     - _SpinAmount: 0.25
     - _SpinEase: 1
     - _SpinRotation: -2
     - _SpinSpeed: 7
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 1, g: 1, b: 1, a: 1}
-    - _Color2: {r: 1, g: 1, b: 1, a: 1}
-    - _Color3: {r: 0, g: 0, b: 0, a: 1}
+    - _Color1: {r: 0.24547961, g: 0.22855026, b: 0.22756086, a: 1}
+    - _Color2: {r: 0.60605043, g: 0.61781305, b: 0.625838, a: 1}
+    - _Color3: {r: 0.0024184815, g: 0.0038475844, b: 0.0040674466, a: 1}
     - _Colour1: {r: 0.871, g: 0.26699996, b: 0.23099995, a: 1}
     - _Colour2: {r: 0, g: 0.41999996, b: 0.706, a: 1}
     - _Colour3: {r: 0.08599999, g: 0.13699996, b: 0.14499995, a: 1}

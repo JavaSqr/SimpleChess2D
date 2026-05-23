@@ -492,6 +492,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: UI_Buttons_01_17
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 487
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92bc819a69693d740b7a096c9f5f8a1a
+      internalID: -1239287982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -512,6 +533,7 @@ TextureImporter:
       UI_Buttons_01_14: -197833412
       UI_Buttons_01_15: -1742346247
       UI_Buttons_01_16: -1911306092
+      UI_Buttons_01_17: -1239287982
       UI_Buttons_01_2: -656743699
       UI_Buttons_01_3: 608483741
       UI_Buttons_01_4: 1167773758

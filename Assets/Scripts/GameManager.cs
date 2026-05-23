@@ -163,5 +163,15 @@ namespace SimpleChess
             audioManager?.PlayGameOverMusic();
             ui?.ShowGameOver(losingTeam);
         }
+
+        public void OnTimeExpired(int losingTeam)
+        {
+            State.Phase = GamePhase.GameOver;
+            timer.Pause();
+            selection.SetActive(false);
+            audioManager?.OnGameOver();
+            audioManager?.PlayGameOverMusic();
+            ui?.ShowGameOver(losingTeam);
+        }
     }
 }
